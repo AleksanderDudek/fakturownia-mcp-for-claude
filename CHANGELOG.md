@@ -11,6 +11,11 @@ Format zgodny z [Keep a Changelog](https://keepachangelog.com/pl/1.1.0/).
   wskazuje stały adres `releases/latest`, więc zawsze prowadzi do najnowszej
   paczki.
 
+### Zmienione
+- Zaktualizowano `zod` do **4.x** (z 3.x). MCP SDK 1.29 wspiera zod 4;
+  serwer nadal rejestruje wszystkie 12 narzędzi (sprawdzone). `@modelcontextprotocol/sdk`
+  pozostaje na `^1.29.0` (już najnowsza).
+
 ## [2.1.0] - 2026-07-02
 ### Zmienione
 - Zawężono projekt do connectora dla Claude Desktop. Usunięto stronę,
