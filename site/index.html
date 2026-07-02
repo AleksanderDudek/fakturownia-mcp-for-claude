@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fakturownia MCP — pytaj Claude o swoje faktury</title>
+  <meta name="description" content="Nieoficjalny connector MCP dla Fakturowni. Pytaj Claude Desktop o należności, obroty, VAT i klientów w naturalnym języku. Tryb tylko do odczytu, token w systemowym sejfie." />
+
+  <meta property="og:title" content="Fakturownia MCP — pytaj Claude o swoje faktury" />
+  <meta property="og:description" content="Zamiast klikać po panelu, pytasz Claude: „Kto mi nie zapłacił?”. Connector MCP dla Fakturowni, tylko do odczytu." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="icon.png" />
+  <meta name="theme-color" content="#0d6350" />
+
+  <link rel="icon" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== Nav ===== -->
+  <header class="site-nav">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="icon.png" alt="" /> Fakturownia&nbsp;MCP</a>
+      <nav class="nav-links">
+        <a href="#funkcje">Co to robi</a>
+        <a href="#instalacja">Instalacja</a>
+        <a href="#narzedzia">Narzędzia</a>
+        <a href="#bezpieczenstwo">Bezpieczeństwo</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="{{REPO_URL}}">GitHub</a>
+        <a class="btn btn-primary" href="{{DOWNLOAD_URL}}">Pobierz</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <span class="eyebrow reveal">Nieoficjalny connector MCP</span>
+          <h1 class="reveal d1">Pytaj Claude<br /><span class="accent">o swoje faktury.</span></h1>
+          <p class="lead reveal d2">Zamiast klikać po panelu Fakturowni, pytasz w naturalnym języku — o należności, obroty, VAT i klientów. Odpowiedź liczona po stronie serwera, prosto w Claude Desktop.</p>
+          <div class="hero-actions reveal d3">
+            <a class="btn btn-primary" href="{{DOWNLOAD_URL}}">Pobierz&nbsp;.mcpb <span class="ver">v{{VERSION}}</span></a>
+            <a class="btn btn-ghost" href="{{REPO_URL}}">Zobacz kod źródłowy</a>
+          </div>
+          <div class="hero-meta reveal d4">
+            <span>Licencja MIT</span>
+            <span>Tylko do odczytu</span>
+            <span>Node w zestawie</span>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal d2">
+          <div class="receipt" role="img" aria-label="Przykład rozmowy z Claude o nieopłaconych fakturach">
+            <div class="receipt-head"><span>Fakturownia · rozmowa</span><span>Claude</span></div>
+            <div class="chat">
+              <div class="msg user">Kto mi nie zapłacił i ile jest po terminie?</div>
+              <div class="msg bot">
+                Na dziś <b>3 faktury po terminie</b> na łączne <b>18&nbsp;540&nbsp;zł</b>:
+                <table class="mini-table">
+                  <tr><td>Nordwind sp. z o.o.</td><td class="over">9 800 zł · 21 dni</td></tr>
+                  <tr><td>Kowalski Design</td><td class="over">5 240 zł · 12 dni</td></tr>
+                  <tr><td>Brentwood Media</td><td class="over">3 500 zł · 4 dni</td></tr>
+                </table>
+              </div>
+            </div>
+            <div class="receipt-foot"><span>salda + wiekowanie</span><span class="total">SUMA 18 540 zł</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Notice ===== -->
+    <section class="notice">
+      <div class="wrap">
+        <span class="mark">i</span>
+        <p><strong>Projekt nieoficjalny.</strong> Nie jest tworzony ani wspierany przez Fakturownia sp. z o.o. Korzysta z publicznego <a href="https://github.com/fakturownia/API">API Fakturowni</a> i działa <strong>wyłącznie w trybie odczytu</strong> — nie wystawia, nie edytuje ani nie usuwa faktur.</p>
+      </div>
+    </section>
+
+    <!-- ===== What it does ===== -->
+    <section class="block" id="funkcje">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Co to robi</span>
+          <h2>Rozmowa zamiast klikania po panelu.</h2>
+          <p>Serwer łączy się z Twoim kontem przez API i liczy odpowiedzi po swojej stronie — salda, przeterminowania, rankingi — więc wyniki są szybkie i spójne. Zapytaj o cokolwiek z tych:</p>
+        </div>
+        <div class="q-grid">
+          <div class="q-card"><span class="qmark">„</span><p>Kto mi nie zapłacił i ile jest po terminie?</p></div>
+          <div class="q-card"><span class="qmark">„</span><p>Jaki był obrót w czerwcu? Porównaj z majem.</p></div>
+          <div class="q-card"><span class="qmark">„</span><p>Kto jest moim największym klientem w tym roku?</p></div>
+          <div class="q-card"><span class="qmark">„</span><p>Rozbij sprzedaż VAT za II kwartał.</p></div>
+          <div class="q-card"><span class="qmark">„</span><p>Wyeksportuj wszystkie faktury z 2026 do CSV.</p></div>
+          <div class="q-card"><span class="qmark">„</span><p>Pobierz PDF-y faktur z ostatniego miesiąca.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Install ===== -->
+    <section class="block" id="instalacja">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Instalacja · Claude Desktop</span>
+          <h2>Gotowe w cztery kroki.</h2>
+          <p>Nie musisz instalować Node.js — Claude Desktop dostarcza własny. Paczka jest niepodpisana, więc przy instalacji zobaczysz „nieznany wydawca” (normalne przy dystrybucji spoza oficjalnego katalogu).</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <h3>Weź kod API</h3>
+            <p>W Fakturowni: Ustawienia → Ustawienia konta → Integracja → Kod autoryzacyjny API.</p>
+          </div>
+          <div class="step">
+            <h3>Zapamiętaj domenę</h3>
+            <p>Część przed <span class="inline-code">.fakturownia.pl</span> — dla <span class="inline-code">mojafirma.fakturownia.pl</span> to <span class="inline-code">mojafirma</span>.</p>
+          </div>
+          <div class="step">
+            <h3>Zainstaluj rozszerzenie</h3>
+            <p>Pobierz <span class="inline-code">.mcpb</span>, a w Claude Desktop otwórz Ustawienia → Extensions → Install Extension… i wskaż plik. Na macOS wystarczy dwuklik.</p>
+          </div>
+          <div class="step">
+            <h3>Podaj dane i sprawdź</h3>
+            <p>Wpisz domenę i token — token trafia do systemowego sejfu. Potem zapytaj:</p>
+            <span class="path">„Pokaż obrót z tego miesiąca”</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Tools ===== -->
+    <section class="block" id="narzedzia">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Narzędzia</span>
+          <h2>Dwanaście narzędzi, jeden token.</h2>
+          <p>Okresy (<span class="inline-code">period</span>): <span class="inline-code">this_month</span>, <span class="inline-code">last_month</span>, <span class="inline-code">last_30_days</span>, <span class="inline-code">this_year</span>, <span class="inline-code">last_year</span>, <span class="inline-code">last_12_months</span> lub własny zakres dat.</p>
+        </div>
+        <div class="tools-wrap">
+          <table class="tools">
+            <thead><tr><th>Narzędzie</th><th>Pytanie, na które odpowiada</th></tr></thead>
+            <tbody>
+              <tr><td class="tool">list_invoices</td><td class="desc">„Pokaż faktury z czerwca / największe tego roku”</td></tr>
+              <tr><td class="tool">find_invoice</td><td class="desc">„Znajdź fakturę FV/2026/06/12”</td></tr>
+              <tr><td class="tool">unpaid_invoices</td><td class="desc">„Kto nie zapłacił? Co po terminie?” (salda + wiekowanie)</td></tr>
+              <tr><td class="tool">revenue_summary</td><td class="desc">„Ile wystawiłem w tym miesiącu?” (netto / VAT / brutto)</td></tr>
+              <tr><td class="tool">vat_breakdown</td><td class="desc">„Rozbij sprzedaż po stawkach VAT” (pod JPK)</td></tr>
+              <tr><td class="tool">compare_periods</td><td class="desc">„Porównaj ten miesiąc z poprzednim”</td></tr>
+              <tr><td class="tool">top_clients</td><td class="desc">„Kto jest moim największym klientem?”</td></tr>
+              <tr><td class="tool">client_invoices</td><td class="desc">„Faktury klienta X i jego saldo”</td></tr>
+              <tr><td class="tool">list_products</td><td class="desc">Cennik i stany magazynowe</td></tr>
+              <tr><td class="tool">list_payments</td><td class="desc">Wpłaty i rozliczenia z okresu</td></tr>
+              <tr><td class="tool">export_invoices_csv</td><td class="desc">Eksport faktur do CSV</td></tr>
+              <tr><td class="tool">download_invoice_pdfs</td><td class="desc">Hurtowe pobranie PDF-ów</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Security ===== -->
+    <section class="block" id="bezpieczenstwo">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Bezpieczeństwo</span>
+          <h2>Twoje dane zostają u Ciebie.</h2>
+        </div>
+        <div class="sec-grid">
+          <div class="sec-card">
+            <h3>Tylko odczyt</h3>
+            <p>Serwer wykonuje wyłącznie zapytania GET — nie wystawia, nie edytuje ani nie usuwa faktur.</p>
+          </div>
+          <div class="sec-card">
+            <h3>Token w sejfie</h3>
+            <p>Podajesz go przy instalacji; trafia do systemowego sejfu (Keychain / Credential Manager). Nigdy nie opuszcza oficjalnego API Fakturowni.</p>
+          </div>
+          <div class="sec-card">
+            <h3>Kod jest jawny</h3>
+            <p>Cały serwer to jeden plik bez zaciemniania. Paczkę <span class="inline-code">.mcpb</span> możesz rozpakować (to zwykły ZIP) i sprawdzić zawartość.</p>
+          </div>
+          <div class="sec-card">
+            <h3>Bez natywnych binariów</h3>
+            <p>Zależności to czysty JavaScript. Jeśli token wycieknie — wygeneruj nowy w ustawieniach Fakturowni.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== What's new ===== -->
+    <section class="block" id="conowego">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">Co nowego</span>
+          <h2>Najnowsze wydanie.</h2>
+        </div>
+        <div class="changelog" data-version="{{VERSION}}">
+          {{WHATS_NEW}}
+          <a class="more" href="{{RELEASE_URL}}">Wszystkie wydania →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Final CTA ===== -->
+    <section class="block cta">
+      <div class="wrap">
+        <h2>Zainstaluj i zapytaj o pierwszy obrót.</h2>
+        <p>Jeden plik, jeden token, zero konfiguracji środowiska. Działa na macOS, Windows i Linux.</p>
+        <a class="btn btn-primary" href="{{DOWNLOAD_URL}}">Pobierz&nbsp;.mcpb <span class="ver">v{{VERSION}}</span></a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-col">
+        <a class="brand" href="#top"><img src="icon.png" alt="" /> Fakturownia&nbsp;MCP</a>
+        <p>Nieoficjalny serwer MCP dla Fakturowni. „Fakturownia” — znak towarowy właściciela, użyty opisowo.</p>
+      </div>
+      <div class="foot-links">
+        <a href="{{REPO_URL}}">Kod źródłowy (GitHub)</a>
+        <a href="{{RELEASE_URL}}">Wydania</a>
+        <a href="{{REPO_URL}}/blob/main/README.md">Dokumentacja</a>
+        <a href="{{REPO_URL}}/blob/main/NOTICE.md">Nota prawna (NOTICE)</a>
+        <a href="{{REPO_URL}}/blob/main/SECURITY.md">Bezpieczeństwo</a>
+      </div>
+      <p class="foot-note">Licencja MIT © 2026 Aleksander Dudek · zbudowane z publicznego API Fakturowni</p>
+    </div>
+  </footer>
+</body>
+</html>
