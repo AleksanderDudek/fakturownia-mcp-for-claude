@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - name: Sprawdź, czy serwer się uruchamia i rejestruje narzędzia
+        run: |
+          FAKTUROWNIA_DOMAIN=demo FAKTUROWNIA_API_TOKEN=dummy \
+          node --input-type=module -e '
+            import { spawn } from "node:child_process";
+            const p = spawn("node", ["src/index.js"], {
+              env: { ...process.env, FAKTUROWNIA_DOMAIN:"demo", FAKTUROWNIA_API_TOKEN:"dummy" },
+              stdio: ["pipe","pipe","inherit"]
+            });
+            let buf="";
+            p.stdout.on("data", d => { buf += d;
+              for (const l of buf.split("\n")) { if(!l.trim())continue;
+                try { const m=JSON.parse(l);
+                  if(m.id===2){ const n=m.result.tools.length;
+                    console.log("Narzędzi:", n);
+                    process.exit(n===12?0:1); } } catch {} } });
+            const s=o=>p.stdin.write(JSON.stringify(o)+"\n");
+            s({jsonrpc:"2.0",id:1,method:"initialize",params:{protocolVersion:"2024-11-05",capabilities:{},clientInfo:{name:"ci",version:"1"}}});
+            setTimeout(()=>{s({jsonrpc:"2.0",method:"notifications/initialized"});s({jsonrpc:"2.0",id:2,method:"tools/list"});},400);
+            setTimeout(()=>{console.error("TIMEOUT");process.exit(1);},8000);
+          '
+      - name: Walidacja manifestu .mcpb
+        run: npx --yes @anthropic-ai/mcpb validate manifest.json

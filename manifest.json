@@ -1,0 +1,69 @@
+{
+  "manifest_version": "0.2",
+  "name": "fakturownia-connector",
+  "display_name": "Fakturownia",
+  "version": "2.0.0",
+  "description": "Pobieraj i analizuj faktury z Fakturowni: należności, obroty, VAT, klienci, eksport CSV/PDF.",
+  "long_description": "Connector łączy Claude z Twoim kontem Fakturownia przez oficjalne API (tylko odczyt). Odpowiada na pytania o płynność (kto nie zapłacił, co po terminie), obroty i porównania okresów, VAT, rankingi klientów, oraz eksportuje dane do CSV i PDF. Token API podajesz raz przy instalacji — jest przechowywany w systemowym sejfie, nie w pliku tekstowym. Serwer działa na Node.js dostarczanym przez Claude Desktop, więc nie wymaga instalowania żadnych dodatkowych środowisk.",
+  "author": {
+    "name": "Fakturownia MCP"
+  },
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "src/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/src/index.js"],
+      "env": {
+        "FAKTUROWNIA_DOMAIN": "${user_config.domain}",
+        "FAKTUROWNIA_API_TOKEN": "${user_config.api_token}",
+        "FAKTUROWNIA_EXPORT_DIR": "${user_config.export_dir}"
+      }
+    }
+  },
+  "user_config": {
+    "domain": {
+      "type": "string",
+      "title": "Domena Fakturowni",
+      "description": "Część adresu przed .fakturownia.pl (np. dla mojafirma.fakturownia.pl wpisz: mojafirma). Możesz też podać pełny host.",
+      "required": true
+    },
+    "api_token": {
+      "type": "string",
+      "title": "Kod autoryzacyjny API",
+      "description": "Fakturownia → Ustawienia → Ustawienia konta → Integracja → Kod autoryzacyjny API. Wartość jest przechowywana w systemowym sejfie.",
+      "sensitive": true,
+      "required": true
+    },
+    "export_dir": {
+      "type": "directory",
+      "title": "Katalog na eksporty (opcjonalnie)",
+      "description": "Gdzie zapisywać eksporty CSV i pobierane PDF-y. Jeśli puste, trafiają do podkatalogu obok rozszerzenia.",
+      "required": false,
+      "default": "${HOME}/Fakturownia-eksporty"
+    }
+  },
+  "tools": [
+    { "name": "list_invoices", "description": "Lista faktur z okresu (posortowana), z szybkim podsumowaniem." },
+    { "name": "find_invoice", "description": "Znajdź fakturę po numerze lub ID (pełne dane z pozycjami)." },
+    { "name": "unpaid_invoices", "description": "Nieopłacone / przeterminowane faktury z saldami i podziałem wiekowym." },
+    { "name": "revenue_summary", "description": "Obrót za okres: netto, VAT, brutto, zapłacone, do zapłaty." },
+    { "name": "vat_breakdown", "description": "Rozbicie sprzedaży/kosztów po stawkach VAT (pod JPK)." },
+    { "name": "compare_periods", "description": "Porównanie obrotu między dwoma okresami." },
+    { "name": "top_clients", "description": "Ranking klientów po obrocie brutto." },
+    { "name": "client_invoices", "description": "Wszystkie faktury danego klienta i jego saldo." },
+    { "name": "list_products", "description": "Produkty/usługi z cennika i stany magazynowe." },
+    { "name": "list_payments", "description": "Płatności (wpłaty/rozliczenia) z okresu." },
+    { "name": "export_invoices_csv", "description": "Eksport faktur z okresu do pliku CSV." },
+    { "name": "download_invoice_pdfs", "description": "Hurtowe pobranie PDF-ów faktur na dysk." }
+  ],
+  "keywords": ["fakturownia", "faktury", "invoices", "księgowość", "VAT", "Poland"],
+  "license": "MIT",
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

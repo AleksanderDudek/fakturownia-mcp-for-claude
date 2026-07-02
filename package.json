@@ -1,0 +1,31 @@
+{
+  "name": "fakturownia-mcp-for-claude",
+  "version": "2.0.0",
+  "description": "Nieoficjalny serwer MCP dla Fakturowni — pobieranie i analiza faktur w Claude Desktop.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "fakturownia-mcp": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "mcpb pack . dist/fakturownia.mcpb",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "fakturownia",
+    "faktury",
+    "invoices",
+    "claude",
+    "claude-desktop"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.0"
+  }
+}
