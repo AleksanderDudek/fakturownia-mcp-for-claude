@@ -1,0 +1,58 @@
+name: Pages
+
+on:
+  # Główny mechanizm: nowe wydanie paczki -> przebudowa strony z nową wersją.
+  release:
+    types: [published]
+  # Zmiany w treści strony lub metadanych.
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "CHANGELOG.md"
+      - "manifest.json"
+      - "icon.png"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Jeden deploy na raz; nie przerywaj trwającego.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Zbuduj stronę (wstrzyknij wersję i notatki)
+        run: node site/build.mjs
+        env:
+          REPO: ${{ github.repository }}
+          # Untrusted release data przekazane wyłącznie przez env (nie do shella);
+          # build.mjs czyta je z process.env. Przy innych wyzwalaczach są puste,
+          # więc skrypt bierze fallback z manifest.json / CHANGELOG.md.
+          SITE_VERSION: ${{ github.event.release.tag_name }}
+          SITE_NOTES: ${{ github.event.release.body }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

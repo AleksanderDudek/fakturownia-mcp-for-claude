@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "fakturownia-connector",
   "display_name": "Fakturownia",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "Pobieraj i analizuj faktury z Fakturowni: należności, obroty, VAT, klienci, eksport CSV/PDF.",
   "long_description": "Connector łączy Claude z Twoim kontem Fakturownia przez oficjalne API (tylko odczyt). Odpowiada na pytania o płynność (kto nie zapłacił, co po terminie), obroty i porównania okresów, VAT, rankingi klientów, oraz eksportuje dane do CSV i PDF. Token API podajesz raz przy instalacji — jest przechowywany w systemowym sejfie, nie w pliku tekstowym. Serwer działa na Node.js dostarczanym przez Claude Desktop, więc nie wymaga instalowania żadnych dodatkowych środowisk.",
   "author": {

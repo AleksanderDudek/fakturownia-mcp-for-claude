@@ -10,6 +10,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A518-brightgreen.svg)](https://nodejs.org)
 [![status](https://img.shields.io/badge/status-read--only-success.svg)](#bezpieczeństwo)
 
+[**Strona projektu →**](https://aleksanderdudek.github.io/fakturownia-mcp-for-claude/) · [Pobierz najnowsze wydanie](../../releases/latest)
+
 </div>
 
 ---
