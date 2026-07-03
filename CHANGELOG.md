@@ -2,6 +2,14 @@
 
 Format zgodny z [Keep a Changelog](https://keepachangelog.com/pl/1.1.0/).
 
+## [2.2.1] - 2026-07-03
+### Zmienione
+- `release.yml` po opublikowaniu paczki sam odświeża stronę przez
+  `workflow_call` do `pages.yml` (z wersją z tagu). Trigger `release: published`
+  nie działał, bo release tworzony przez Actions nie odpala kolejnych workflow.
+- Środowisko `github-pages` dopuszcza teraz deploy z tagów `v*` (wcześniej tylko
+  z `main`), co odblokowało deploy strony z przebiegu wydania.
+
 ## [2.2.0] - 2026-07-02
 ### Dodane
 - Strona reklamowa (landing) hostowana na **GitHub Pages** z instrukcją
