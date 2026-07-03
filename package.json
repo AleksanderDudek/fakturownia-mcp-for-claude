@@ -1,6 +1,6 @@
 {
   "name": "fakturownia-mcp-for-claude",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Nieoficjalny serwer MCP dla Fakturowni — pobieranie i analiza faktur w Claude Desktop.",
   "type": "module",
   "main": "src/index.js",
