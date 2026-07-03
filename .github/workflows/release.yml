@@ -25,3 +25,16 @@ jobs:
         with:
           files: dist/fakturownia.mcpb
           generate_release_notes: true
+
+  # Po opublikowaniu paczki odśwież stronę z numerem wersji z tagu.
+  # (Release utworzony przez Actions nie odpala triggera release:published,
+  #  więc wołamy pages.yml wprost przez workflow_call.)
+  pages:
+    needs: release
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/pages.yml
+    with:
+      version: ${{ github.ref_name }}
