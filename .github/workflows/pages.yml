@@ -36,8 +36,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
       - name: Zbuduj stronę (wstrzyknij wersję i notatki)
@@ -47,8 +47,8 @@ jobs:
           # Wersja z inputu (workflow_call z release.yml). Przy push/dispatch
           # jest pusta, więc build.mjs bierze fallback z manifest.json / CHANGELOG.md.
           SITE_VERSION: ${{ inputs.version }}
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -60,4 +60,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
