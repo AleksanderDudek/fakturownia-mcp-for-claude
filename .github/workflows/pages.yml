@@ -1,10 +1,7 @@
 name: Pages
 
 on:
-  # Główny mechanizm: nowe wydanie paczki -> przebudowa strony z nową wersją.
-  release:
-    types: [published]
-  # Zmiany w treści strony lub metadanych.
+  # Zmiany w treści strony lub metadanych na main.
   push:
     branches: [main]
     paths:
@@ -13,6 +10,16 @@ on:
       - "manifest.json"
       - "icon.png"
       - ".github/workflows/pages.yml"
+  # Wywoływane przez release.yml po opublikowaniu nowej paczki .mcpb.
+  # (Release tworzony przez Actions nie odpala triggera release:published,
+  #  dlatego wołamy ten workflow wprost.)
+  workflow_call:
+    inputs:
+      version:
+        description: "Wersja do pokazania (np. tag wydania). Puste = fallback z CHANGELOG.md."
+        type: string
+        required: false
+        default: ""
   workflow_dispatch:
 
 permissions:
@@ -37,11 +44,9 @@ jobs:
         run: node site/build.mjs
         env:
           REPO: ${{ github.repository }}
-          # Untrusted release data przekazane wyłącznie przez env (nie do shella);
-          # build.mjs czyta je z process.env. Przy innych wyzwalaczach są puste,
-          # więc skrypt bierze fallback z manifest.json / CHANGELOG.md.
-          SITE_VERSION: ${{ github.event.release.tag_name }}
-          SITE_NOTES: ${{ github.event.release.body }}
+          # Wersja z inputu (workflow_call z release.yml). Przy push/dispatch
+          # jest pusta, więc build.mjs bierze fallback z manifest.json / CHANGELOG.md.
+          SITE_VERSION: ${{ inputs.version }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
